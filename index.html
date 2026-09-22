@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rupee Coin Toss | Interactive Simulator</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+
+        <header class="header">
+            <div class="header-content">
+                <h1>₹ Coin Toss</h1>
+                <p class="subtitle">Indian Rupee Coin Toss Simulator</p>
+            </div>
+            <button class="sound-toggle" id="soundToggle" aria-label="Toggle Sound" title="Toggle Sound">
+                <span class="sound-icon">🔊</span>
+            </button>
+        </header>
+
+        <main class="content">
+            <!-- Coin Section -->
+            <div class="coin-section">
+                <div class="coin-container" id="coinContainer">
+                    <div class="coin" id="coin">
+                        <!-- Front Face (Heads) -->
+                        <div class="coin-face coin-heads">
+                            <div class="coin-inner">
+                                <div class="coin-edge"></div>
+                                <div class="coin-content">
+                                    <div class="rupee-symbol">₹</div>
+                                    <div class="denomination" id="coinDenom">1</div>
+                                    <div class="county">INDIA</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Back Face (Tails) -->
+                         <div class="coin-face coin-tails">
+                            <div class="coin-inner">
+                                <div class="coin-edge"></div>
+                                <div class="coin-content">
+                                    <div class="emblem">◉</div>
+                                    <div class="chakra">⚙</div>
+                                    <div class="county">BHARAT</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!--Shadow-->
+                        <div class="coin-shadow" id="coinShadow"></div>
+                    </div>
+
+                    <!-- Result Display -->
+                     <div class="result-section" role="region" aria-live="polite" aria-atomic="true">
+                        <div class="result-display" id="resultDisplay" style="opacity: 0;">
+                            <div class="result-text" id="resultText"></div>
+                            <div class="result-value" id="resultValue"></div>
+                            <div class="result-message" id="resultMessage"></div>
+                        </div>
+                     </div>
+
+                    <!--Main Toss Button - Centered Below Coin -->
+                    <button class="btn btn primary btn-toss-main" id="tossBtn" aria-label="Toss the coin">
+                        <span class="btn-text">Toss Coin</span>
+                        <span class="btn-icon">🎲</span>
+                    </button> 
+
+                </div>
+
+                <!-- Control Panel -->
+                <div class="control-panel">
+                    <!-- Denomination Selector -->
+                    <div class="denomination-selector">
+                        <label for="denomination" class="label">💰 Select Denomination:</label>
+                        <div class="button-group" role="group" aria-label="Coin denomination">
+                            <button class="denom-btn active" data-denom="1">₹1</button>
+                            <button class="denom-btn" data-denom="2">₹2</button>
+                            <button class="denom-btn" data-denom="5">₹5</button>
+                            <button class="denom-btn" data-denom="10">₹10</button>
+                            <button class="denom-btn" data-denom="20">₹20</button>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="button-container">
+                        <button class="btn btn-secondary" id="toss10Btn" aria-label="Toss the coin 10 times">
+                            <span class="btn-text">Toss 10×</span>
+                            <span class="btn-icon">⚡</span>
+                        </button>
+                        <button class="btn btn-info" aria-label="Show statistics">
+                            <span class="btn-text">Stats</span>
+                            <span class="btn-icon">📊</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Statistics Section -->
+                 <div class="stats-section">
+                    <div class="status-header">
+                        <h2>Statistics</h2>
+                        <button class="btn btn reset" id="resetBtn" aria-label="Reset statistics">Reset</button>
+                    </div>
+
+                    <!--Chart -->
+                    <div class="chart-container">
+                        <div class="chart" id="chart">
+                            <div class="chart-bar heads-bar" id="headsBar">
+                                <div class="chart-fill"></div>
+                                <span class="chart-label">Heads</span>
+                            </div>
+                            <div class="chart-bar tails-bar" id="tailsBar">
+                                <div class="chart-fill"></div>
+                                <span class="chart-label">Tails</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Stats Grid -->
+                     <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-label">Total Tosses</div>
+                            <div class="stat-value" id="totalTosses">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Heads</div>
+                            <div class="stat-value heads-color" id="headsCount">0</div>
+                            <div class="stat-percentage" id="headsPercent">0%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Tails</div>
+                            <div class="stat-value tails-color" id="tailsCount">0</div>
+                            <div class="stat-percentage" id="tailsPercent">0%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Streak</div>
+                            <div class="stat-value" id="currentStreak">-</div>
+                            <div class="stat-subtext" id="streakType"></div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Longest Streak</div>
+                            <div class="stat-value" id="longestStreak">-</div>
+                            <div class="stat-subtext" id="longestStreakType"></div>
+                        </div>
+                     </div>
+
+                    <!-- History -->
+                    <div class="history-container">
+                        <h3 class="history-title">Last 10 Tosses</h3>
+                        <div class="history">
+                            <div class="history-empty">No tosses yet</div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2026 Rupee Coin Toss Simulator. All rights reserved. | For enrtertainment purposes only.
+            </p>
+        </footer>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+</html>
