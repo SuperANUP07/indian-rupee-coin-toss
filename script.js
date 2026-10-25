@@ -137,7 +137,62 @@ class CoinTossApp{
             await this.animationCoinSpin(isHeads,0.8);
 
             this.recordToss(isHeads);
-            this.
+            this.displayResult(isHeads);
+            this.updateStatistics();
+
+            this.playLandingSound();
+
+            this.coinShadow.classList.remove('active');
+            this.coinShadow.classList.add('inactive');
+
+            if (i < 9) {
+                await new Promise(resolve => setTimeout(resolve, 600));
+            }
+            this.isAnimating = false;
         }
+
+        this.isBatchTossing = false;
+        this.tossBtn.disabled = false;
+        this.toss10Btn.disabled = false;
     }
+
+    /**Animate the coin spining */
+    animateCoinspin(isHeads, duration = 1){
+        return new Promise(resolve => {
+            this.coin.classList.add(
+                duration <1 ? 'tossing' : 'tossing-extended'
+            );
+            const finalRotation = isHeads ? 0 : 180;
+
+            setTimeout(() => {
+                this.coin.classList.remove('tossing', 'tossing-extended');
+                this.coin.classList.add(isHeads ? 'heads': 'trails');
+                setTimeout(() => {
+                    this.coin.classList.remove('landing-heads','landing-tails' );
+                    this.coin.style.transform = `rotateY(${finalRotation}deg`;
+                    resolve();
+                }, 400);
+            }, duration * 1000);
+        });
+    }
+
+    /** Record the toss result */
+    recordToss(isHeads) {
+        if(isHeads){
+            this.stats.headsCount++;
+        } else {
+            this.stats.tailsCount++;
+        }
+        this.stats.totalTosses++;
+
+        this.stats.history.unshift(isHeads ? 'H' : 'T');
+        if(this.stats.history.length > 10 ){
+            this.stats.history.pop();
+        }
+
+        this.updateStreak(isHeads);
+        this.saveStats();
+    }
+
+    
 }
