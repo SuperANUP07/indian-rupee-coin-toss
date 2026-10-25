@@ -194,5 +194,22 @@ class CoinTossApp{
         this.saveStats();
     }
 
-    
+    /** Update the current streak and longest strsak
+    */
+   updateStreak(isHeads) {
+    const currentType = isHeads ? 'H' : 'T';
+    if (this.stats.currentStreak.type === currentType){
+        this.stats.currentStreak.count++;
+    } else {
+        if (this.stats.cuurentStreak.count > this.stats.longestStreak.count){
+            this.stats.longestStreak.count = { ...this.stats.cuurrentSteak};
+        }
+        this.stats.currentSteak = {type : currentType, count:1};
+    }
+   }
+
+   /*** Display the result of the Toss
+    *  **/
+   
+
 }
