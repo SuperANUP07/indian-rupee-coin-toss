@@ -210,6 +210,42 @@ class CoinTossApp{
 
    /*** Display the result of the Toss
     *  **/
-   
+    displayresult(isHeads){
+        const resultClass = isHeads ? 'heads' : 'tails';
+        const resultLabel = isHeads ? 'HEADS' : 'TAILS';
+        const message = [
+            isHeads ? '₹ Rupee side!' : 'Emblem side!',
+            isHeads ? 'Lucky side' : 'Destiny chosen!',
+            isHeads ? 'Gloden result!' : ' sliver lining'
+        ];
+
+        this.resultDisplay.style.opacity = '0';
+
+        setTimneout(() => {
+            this.resultText.className = 'result-text ${resultClass}';
+            this.resultText.textContent = resultLabel;
+            this.resultValue.textContent = '₹${this.currentDenomination}';
+            this.resultMessage.textContent = message[Math.floor(Math.random() * message.Length)];
+            this.resultDisplay.style.opacity = '1';
+        },100);
+    }
+
+    /** Update all statistics displays */
+    updateStratistics() {
+        document.getElementById('totalTosses').textContent = this.stats.totalTosses;
+        document.getElementById('headsCount').textContent = this.stats.headsCount;
+        document.getElementById('tailsCount').textContent = this.stats.tailsCount;
+
+        if(this.stats.totalTosses > 0 ) {
+            const headsPercent = Math.round(
+                (this.stats.headsCount / this.stats.totalTosses) * 100
+            );
+            const tailsPercent = Math.round(
+                (this.stats.tailsCount / this.stats.totalTosses) * 100
+            );
+
+            document.getElementById('headsPercent').textContent = `$`;
+        }
+    }
 
 }
