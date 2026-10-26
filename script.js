@@ -246,7 +246,34 @@ class CoinTossApp{
 
             document.getElementById('headsPercent').textContent = `${headsPercent}%`;
             document.getElementById('tailsPercent').textContent = `${tailsPercent}%`;
+
+            document.getElementById('headsBar').querySelector('.chart-fill').style.height =
+                `${headsPercent}%`;
+            document.getElementById('tailsBar').querySelector('.chart-fill').style.height =
+                `${tailsPercent}%`;
         }
+
+        if (this.stats.currentStreak.type){
+            const streakLabel = this.stats.currentStreak.type === 'heads' ? 'Heads' : 'Tails' ;
+            document.getElementById('currentStreak').textContent = this.stats.cuurentStreak.count;
+            document.getElementById('streakType').textContent = `${streakLabel} in a row`;
+        } else {
+            document.getElementById('currentStreak').textContent = '-';
+            document.getElementById('streakType').textContent = '';
+        }
+
+        if( this.stats.longestStreak.type){
+            const streaklabel = this.stats.longestStreak.type === 'heads' ? 'Heads' : 'Tails';
+            document.getElementById('longestStreak').textContent = this.stats.longestStreak.count; 
+            document.getElementById('longestStreakType').textContent = `${streakLabel} in a row`; 
+        } else {
+            document.getElementById('longestStreak').textContent = '-';
+            document.getElementById('longestStreakType').textContent = '';
+        }
+
+        this.updateHistory();
     }
 
+    /**update History Display*/
+    
 }
