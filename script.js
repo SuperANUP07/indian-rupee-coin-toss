@@ -275,5 +275,36 @@ class CoinTossApp{
     }
 
     /**update History Display*/
-    
+    updateHistory() {
+        const historyConatiner = document.getElementById('history');
+
+        if(this.stats.history.length ===0 ){
+            historyConatiner.innerHTML = '<div class = "history-empty">No tosses yet</div>';
+            return;
+        }
+
+        historyConatiner.innerHTML = this.stats.history.map((result, index) => {
+            const isHeads = result === 'H';
+            const className = isHeads ? 'heads' : 'tails';
+            return `<div class="history-item ${className}" tittle="${isHeads ? 'Heads' : 'Tails'}"> ${result} </div>`;
+        }).join('');
+    }
+
+    /**Reset all statistics */
+    resetStatistics(){
+        if (confirm ('Are you sure want to reset all statistics?')){
+            this.stats = {
+                totalTosses : 0,
+                headsCount : 0,
+                tailsCount  : 0,
+                history : [],
+                currentStreak : {type : null, count : 0 },
+                longestStreak : {type : null , count : 0 }
+            };
+            this.coin.style.transform = 'rotateY(0deg)';
+            this.resultDisplay.style.opacity = '0';
+            this.updateStratistics();
+            this.saveStats();
+        }
+    }
 }
