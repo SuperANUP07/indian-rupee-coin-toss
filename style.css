@@ -1013,14 +1013,7 @@ body {
         grid-template-columns: repeat(3, 1fr);
     }
 
-    /* Hide stats on mobile by default */
-    .stats-section {
-        display: none;
-    }
-
-    .stats-section.visible {
-        display: block;
-    }
+    /* Stats stay visible on mobile (scroll to them with the Stats button) */
 
     .button-container {
         grid-template-columns: 1fr 1fr;
