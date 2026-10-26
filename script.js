@@ -324,7 +324,102 @@ class CoinTossApp{
             oscillator.frequency.setValueAtTime(400, now);
             oscillator.frequency.exponentialRampToValueAtTime(200, now + 0.3);
 
-            gainNode
+            gainNode.gain.setValueAtTime(0.15, now);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+
+            oscillator.start(now);
+            oscillator.stop(now + 0.3);
+        }
+        catch (e) {
+            console.log("Audio context not avilable");
+        }
+    }
+
+    /**Play Landing sound Effect */
+    playLandingSound(){
+        if (!this.soundEnabled) return;
+
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const now = audioContext.currentTime;
+
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+           oscillator.frequency.setValueAtTime(800, now );
+           oscillator.frequency.exponentialRampToValueAtTime(400, now + 0.15);
+
+           gainNode.gain.setValueAtTime(0.2, now);
+           gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+
+           oscillator.start(now);
+           oscillator.stop(now + 0.15);
+        }
+        catch (e) {
+            console.log('Audio context not avilable');
+        }
+    }
+
+    /**Save statistics to localStorage */
+    saveStats(){
+        try {
+            localStorage.setItem('coinTossStats', JSON.stringify(this.stats));
+        } catch (e) {
+            console.log('localStorage not available');
+        }
+    }
+
+    /**Load statistics from localStorage */
+    loadStats(){
+        try {
+            const saved = localStorage.getItem('coinTossStats');
+            if(saved){
+                this.stats = JSON.parse(saved);
+            }
+        }
+        catch (e) {
+            console.log('localStorage not avilable');
+            
         }
     }
 }
+
+
+// INITIALIZE APP ON DOM READY
+
+document.addEventListener('DOMContentLoaded', () => {
+    const app = new CoinTossApp();
+
+    const announcement = document.createElement ('div');
+    announcement.setAttribute('role', 'status');
+    announcement.setAttribute('aria-live', 'polite');
+    announcement.className = 'sr-only';
+    announcement.textContent = 'Coin toss app loded. Press space or click Toss Coin to start.';
+    document.body.appendChild(announcement);
+
+    setTimeout(() => {
+        announcement.remove();
+    }, 2000);
+});
+
+
+//UTILITY STYLE (for screen reader only content
+const styleElement = document.createElement('style');
+styleElement.textContent = `
+    .sr-only {
+    postion : absolute;
+    width : 1px;
+    height : 1px;
+    padding : 0;
+    margin : -1px;
+    overflow: hidden;
+    clip : rect(0,0,0,0);
+    white-space : nowrap;
+    border-width : 0; 
+    }
+`;
+
+document.head.appendChild(styleElement);
