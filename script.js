@@ -307,4 +307,24 @@ class CoinTossApp{
             this.saveStats();
         }
     }
+
+    playTossSound() {
+        if (!this.soundEnabled) return;
+
+        try {
+            const audioContext = new (Window.AudioContext || window.webkitAudioContext)();
+            const now = audioContext.currentTime;
+
+            const oscillator = audioContext.createOscillator ();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.setValueAtTime(400, now);
+            oscillator.frequency.exponentialRampToValueAtTime(200, now + 0.3);
+
+            gainNode
+        }
+    }
 }
