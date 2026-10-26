@@ -632,11 +632,10 @@ body {
     transform: translateY(0);
 }
 
-/* Main Toss Button - Below Coin
-   margin-top: 10cm is the physical distance you asked for. On a phone this
-   will push the button well below the coin, so you may want a smaller value. */
+/* Main Toss Button - Below Coin.
+   margin-top controls the gap between the coin area and the button. */
 .btn-toss-main {
-    margin-top: 10cm;
+    margin-top: 0.5rem;
     width: 100%;
     max-width: 300px;
     padding: 1.5rem 2rem !important;
