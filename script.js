@@ -244,7 +244,8 @@ class CoinTossApp{
                 (this.stats.tailsCount / this.stats.totalTosses) * 100
             );
 
-            document.getElementById('headsPercent').textContent = `$`;
+            document.getElementById('headsPercent').textContent = `${headsPercent}%`;
+            document.getElementById('tailsPercent').textContent = `${tailsPercent}%`;
         }
     }
 
