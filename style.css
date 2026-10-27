@@ -990,6 +990,18 @@ body {
     color: var(--gold-light);
 }
 
+.dev-footer-projects {
+    margin-top: var(--spacing-xs);
+}
+
+.dev-footer-label {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 var(--spacing-sm);
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
 /* ============================================================================
    RESPONSIVE DESIGN
    ============================================================================ */
