@@ -8,14 +8,12 @@
 
 class CoinTossApp {
     constructor() {
-        // App State
         this.currentDenomination = '10';
         this.isAnimating = false;
         this.soundEnabled = true;
         this.isBatchTossing = false;
         this.currentAngle = 0; // Coin's current Y rotation in degrees
 
-        // Statistics
         this.stats = {
             totalTosses: 0,
             headsCount: 0,
@@ -25,7 +23,6 @@ class CoinTossApp {
             longestStreak: { type: null, count: 0 }
         };
 
-        // Load persisted stats
         this.loadStats();
 
         // DOM Elements
@@ -42,7 +39,6 @@ class CoinTossApp {
         this.resultValue = document.getElementById('resultValue');
         this.resultMessage = document.getElementById('resultMessage');
 
-        // Initialize Event Listeners
         this.initializeEventListeners();
         this.updateStatistics();
     }
@@ -51,28 +47,22 @@ class CoinTossApp {
      * Initialize all event listeners
      */
     initializeEventListeners() {
-        // Toss buttons
         this.tossBtn.addEventListener('click', () => this.performToss());
         this.toss10Btn.addEventListener('click', () => this.perform10Tosses());
 
-        // Reset button
         this.resetBtn.addEventListener('click', () => this.resetStatistics());
 
-        // Sound toggle
         this.soundToggle.addEventListener('click', () => this.toggleSound());
 
-        // Stats toggle button (for mobile)
         const statsToggleBtn = document.querySelector('.btn-info');
         if (statsToggleBtn) {
             statsToggleBtn.addEventListener('click', () => this.toggleStats());
         }
 
-        // Denomination buttons
         document.querySelectorAll('.denom-btn').forEach(btn => {
             btn.addEventListener('click', (e) => this.selectDenomination(e.target));
         });
 
-        // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Space' && !this.isAnimating) {
                 e.preventDefault();
@@ -85,7 +75,6 @@ class CoinTossApp {
      * Toggle statistics section visibility
      */
     toggleStats() {
-        // Statistics are always rendered; this button scrolls to them on mobile
         const statsSection = document.querySelector('.stats-section');
         statsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -94,15 +83,12 @@ class CoinTossApp {
      * Select a coin denomination
      */
     selectDenomination(button) {
-        // Remove active class from all buttons
         document.querySelectorAll('.denom-btn').forEach(btn => {
             btn.classList.remove('active');
         });
 
-        // Add active class to clicked button
         button.classList.add('active');
 
-        // Update denomination
         this.currentDenomination = button.dataset.denom;
         this.coinDenom.textContent = this.currentDenomination;
     }
@@ -125,34 +111,26 @@ class CoinTossApp {
         this.tossBtn.disabled = true;
         this.toss10Btn.disabled = true;
 
-        // Reset coin position
         this.coin.className = 'coin';
         this.coinShadow.className = 'coin-shadow inactive';
 
-        // Generate random result
         const isHeads = Math.random() < 0.5;
 
-        // Play toss sound
         this.playTossSound();
 
-        // Animate shadow to active state
         setTimeout(() => {
             this.coinShadow.classList.remove('inactive');
             this.coinShadow.classList.add('active');
         }, 100);
 
-        // Animate coin spinning
         await this.animateCoinSpin(isHeads);
 
-        // Update statistics and display
         this.recordToss(isHeads);
         this.displayResult(isHeads);
         this.updateStatistics();
 
-        // Play landing sound
         this.playLandingSound();
 
-        // Reset animation state
         this.coinShadow.classList.remove('active');
         this.coinShadow.classList.add('inactive');
         this.isAnimating = false;
